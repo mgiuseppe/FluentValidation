@@ -55,10 +55,10 @@ namespace FluentValidation.Controllers
             var validator = new PersonValidator();
             var result = await validator.ValidateAsync(person);
 
-            if(result.IsValid == false)
+            if(!result.IsValid)
             {
                 result.AddToModelState(ModelState, null);
-                return ValidationProblem(); //BadRequest(ModelState); <-- this doesn't returns the same result as the middleware
+                return ValidationProblem(); //BadRequest(ModelState); <-- this doesn't returns the same result as the middleware https://github.com/dotnet/aspnetcore/issues/6077
             }
 
             return await new ValueTask<IActionResult>(Ok());
